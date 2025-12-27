@@ -14,3 +14,10 @@
       method: :post 
   %>
 <% end %>
+
+<h3>Event Attendees</h3>
+<ul>
+  <% @event.attendees.each do |attendee| %>
+  <li><%= attendee.email %></li>
+  <% end %>
+</ul>
