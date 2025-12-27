@@ -16,12 +16,11 @@ class EventAttendencesController < ApplicationController
   end
 
   def destroy
-    attendence = EventAttendence.find_by(
-      attendee: current_user,
+    attendence = current_user.event_attendences.find_by!(
       attended_event: @event
     )
 
-    attendence&.destroy
+    attendence.destroy
     redirect_to @event, notice: "You are no longer attending this event."
   end
 
