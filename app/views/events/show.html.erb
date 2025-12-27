@@ -1,3 +1,16 @@
 <h1><%= @event.title %></h1>
 <p>Location: <%= @event.location %></p>
 <p>Date: <%= @event.date %></p>
+
+<% attendence = current_user.event_attendences.find_by(attended_event_id: @event) %>
+<% if attendence %>
+  <%= button_to "Unattend Event", 
+      event_event_attendence_path(@event, attendence), 
+      method: :delete 
+  %>
+<% else %>
+  <%= button_to "Attend Event", 
+      event_event_attendences_path(@event), 
+      method: :post 
+  %>
+<% end %>
