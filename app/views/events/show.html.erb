@@ -2,6 +2,17 @@
 <p>Location: <%= @event.location %></p>
 <p>Date: <%= @event.date %></p>
 
+<% if @event.is_private? && @event.creator == current_user %>
+  <h3>Invite a user</h3>
+
+  <%= form_with url: event_event_invitations_path(@event), method: :post do %>
+    <%= select_tag :invitee_id,
+      options_from_collection_for_select(User.where.not(id: current_user.id), :id, :email)
+    %>
+    <%= submit_tag "Invite" %>
+  <% end %>
+<% end %>
+
 <% attendence = current_user.event_attendences.find_by(attended_event_id: @event) %>
 <% if attendence %>
   <%= button_to "Unattend Event", 

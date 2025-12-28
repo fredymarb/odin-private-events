@@ -3,6 +3,11 @@ class EventAttendencesController < ApplicationController
   before_action :set_event
 
   def create
+    if @event.is_private? && !(@event.invitees.include?(current_user))
+      redirect_to @event, alert: "You have not been invited to this event."
+      return
+    end
+
     attendence = EventAttendence.new(
       attendee: current_user,
       attended_event: @event

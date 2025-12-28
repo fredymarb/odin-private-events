@@ -35,19 +35,22 @@ puts "Seeding events..."
 users[0].created_events.create!(
   title: "Rails Meetup",
   location: "Accra",
-  date: Date.today + 7
+  date: Date.today + 7,
+  is_private: true
 )
 
 users[1].created_events.create!(
   title: "Ruby Hack Night",
   location: "Kumasi",
-  date: Date.today + 14
+  date: Date.today + 14,
+  is_private: true
 )
 
 users[2].created_events.create!(
   title: "Startup Pitch",
   location: "Cape Coast",
-  date: Date.today + 21
+  date: Date.today + 21,
+  is_private: true
 )
 
 puts "Events created"

@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   resources :users
 
   resources :events do
-    resources :event_attendences
+    resources :event_attendences, only: [ :create, :destroy ]
+    resources :event_invitations, only: [ :create, :destroy ]
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
