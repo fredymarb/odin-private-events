@@ -27,13 +27,26 @@
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
-    <div>
-      <% if user_signed_in? %>
-        <%= link_to"Sign out", destroy_user_session_path, data: { turbo_method: :delete } %>
-      <% else %>
-        <%= link_to "Sign In", new_user_session_path %>
-      <% end %>
-    </div>
+    <% if user_signed_in? %>
+      <%= current_user.email %>
+      <nav style="display: flex; justify-content: space-between;">
+        <div>
+          <ul style="display: flex; flex-direction: column;">
+            <li><%= link_to "All Events", events_path %></li>
+            <li><%= link_to "My Events", user_path(current_user) %></li>
+            <li><%= link_to "Create New Event", new_event_path %></li>
+          </ul>
+        </div>
+        
+        <div>
+          <% if user_signed_in? %>
+            <%= link_to"Sign out", destroy_user_session_path, data: { turbo_method: :delete } %>
+          <% else %>
+            <%= link_to "Sign In", new_user_session_path %>
+          <% end %>
+        </div>
+      </nav>
+    <% end %>
 
     <%= yield %>
   </body>
