@@ -3,21 +3,19 @@ class EventAttendencesController < ApplicationController
   before_action :set_event
 
   def create
-    if @event.is_private? && !(@event.invitees.include?(current_user))
+    is_user_allowed = current_user == @event.creator || @event.invitees.exists?(current_user.id)
+
+    if @event.is_private? && !is_user_allowed
       redirect_to @event, alert: "You have not been invited to this event."
       return
     end
 
-    attendence = EventAttendence.new(
+    EventAttendence.find_or_create_by!(
       attendee: current_user,
       attended_event: @event
     )
 
-    if attendence.save
-      redirect_to @event, notice: "You are now attending this event"
-    else
-      redirect_to @event, notice: "You are already attending this event"
-    end
+    redirect_to @event, notice: "You are now attending this event"
   end
 
   def destroy
