@@ -2,6 +2,14 @@
 
 <ul>
   <% @events.each do |event| %>
-    <li><%= link_to event.title, event_path(event) %></li>
+    <% if event.is_private %>
+      <% if event.invitees.include?(current_user) || event.creator == current_user %>
+        <li><%= link_to event.title, event_path(event) %>🔓</li>
+      <% else %>
+        <li><%= link_to event.title, event_path(event) %>🔒</li>
+      <% end %>
+    <% else %>
+      <li><%= link_to event.title, event_path(event) %>📢</li>
+    <% end %>  
   <% end %>
 </ul>
