@@ -1,7 +1,9 @@
 <h1><%= @event.title %></h1>
 <p>Location: <%= @event.location %></p>
 <p>Date: <%= @event.date %></p>
+<p>Privacy: <%= @event.is_private ? "This is a private event" : "This isn't a private event" %></p>
 
+<!-- Invite feature only available when event is private -->
 <% if @event.is_private? && @event.creator == current_user %>
   <h3>Invite a user</h3>
 
