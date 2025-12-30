@@ -39,6 +39,20 @@ users[0].created_events.create!(
   is_private: true
 )
 
+users[0].created_events.create!(
+  title: "Super Public Event",
+  location: "Super Public Location",
+  date: Date.today + 9,
+  is_private: false
+)
+
+users[0].created_events.create!(
+  title: "Super Private Event",
+  location: "Super Private Location",
+  date: Date.today + 11,
+  is_private: true
+)
+
 users[1].created_events.create!(
   title: "Ruby Hack Night",
   location: "Kumasi",

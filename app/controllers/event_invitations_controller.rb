@@ -1,17 +1,15 @@
 class EventInvitationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_event
-  before_action :set_invitee
+  before_action :authorize_creator!
 
   def create
-    return head :forbidden unless @event.creator == current_user
+    @invite = @event.event_invitations.build(event_invitation_params)
 
-    invite = @event.event_invitations.build(invitee: @invitee)
-
-    if invite.save
-      redirect_to @event, notice: "User Invited"
+    if @invite.save
+      redirect_to @event, notice: "User invited"
     else
-      redirect_to @event, alert: "User has already been invited."
+      redirect_to @event, alert: @invite.errors.full_messages.to_sentence
     end
   end
 
@@ -21,7 +19,11 @@ class EventInvitationsController < ApplicationController
     @event = Event.find(params[:event_id])
   end
 
-  def set_invitee
-    @invitee = User.find(params[:invitee_id])
+  def authorize_creator!
+    redirect_to @event, alert: "Not authorized" unless @event.creator == current_user
+  end
+
+  def event_invitation_params
+    params.require(:event_invitation).permit(:invitee_id)
   end
 end

@@ -3,15 +3,19 @@
 <p>Date: <%= @event.date %></p>
 <p>Privacy: <%= @event.is_private ? "This is a private event" : "This isn't a private event" %></p>
 
+
 <!-- Invite feature only available when event is private -->
 <% if @event.is_private? && @event.creator == current_user %>
   <h3>Invite a user</h3>
 
-  <%= form_with url: event_event_invitations_path(@event), method: :post do %>
-    <%= select_tag :invitee_id,
-      options_from_collection_for_select(User.where.not(id: current_user.id), :id, :email)
+  <%= form_with model: [@event, EventInvitation.new] do |form| %>
+    <%= form.collection_select :invitee_id,
+      User.where.not(id: current_user.id),
+      :id,
+      :email,
+      prompt: "Select a user"
     %>
-    <%= submit_tag "Invite" %>
+    <%= form.submit "Invite" %>
   <% end %>
 <% end %>
 
